@@ -13,44 +13,34 @@
     </style>
 </head>
 <body>
-    <form action="{{ route('musician.create')}}">
+    <form action="{{ route('song.create')}}">
         <button class="btn btn-primary">create</button>
     </form>
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>id</th>
-                <th>name</th>
-                <th>slug</th>
-                <th>city</th>
-                <th>street</th>
-                <th>phone</th>
-                <th>gender</th>
-                <th>top_producer</th>
-                <th>actions</th>
+                <th>title</th>
+                <th>author</th>
+                <th>album_title</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($musicians as $musician)
+            @foreach($songs as $song)
                 <tr>
-                    <td>{{ $musician->id }}</td>
-                    <td>{{ $musician->name }}</td>
-                    <td>{{ $musician->slug }}</td>
-                    <td>{{ $musician->city }}</td>
-                    <td>{{ $musician->street }}</td>
-                    <td>{{ $musician->phone }}</td>
-                    <td>{{ $musician->gender }}</td>
-                    <td>{{ $musician->top_producer }}</td>
+                    <td>{{ $song->id }}</td>
+                    <td>{{ $song->title }}</td>
+                    <td>{{ $song->author }}</td>
+                    <td>{{ $song->album->title }}</td>
                     <td>
-                        <a href="{{route('musician.show',$musician)}}" class="btn btn-primary">show</a>
-                        <form action="{{ route('musician.edit',$musician)}}">
-                            <button class="btn btn-warning">edit</button>
+                         <form action="{{ route('song.edit',$song)}}">
+                            <button>edit</button>
                         </form>
-                        <form action="{{ route('musician.destroy',$musician)}}" method="post">
+                        <form action="{{ route('song.destroy',$song)}}" method="post">
                             @method('delete')
                             @csrf
-                            <button class="btn btn-danger">delete</button>
-                        </form>
+                            <button>delete</button>
+                        </form> 
                     </td>
                 </tr>
             @endforeach
@@ -58,6 +48,6 @@
         </tbody>
     </table>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    {{$musicians->links()}}
+    {{$songs->links()}}
 </body>
 </html>

@@ -13,42 +13,42 @@
  
  
 
-    <form action="{{route('musician.update',$musician)}}" method="post">
-        @method('put')
+    <form action="{{ route('musician.store')}}" method="post">
         @csrf
         <div class="row">
         <div class="mb-3 col-6">
           <label for="exampleInputEmail1" class="form-label">Name</label>
-          <input type="text" name="name" value="{{$musician->name}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           @error('name')
             <p class="bg-danger">{{ $message }}</p>
           @enderror
         </div>
         <div class="mb-3 col-6">
           <label for="exampleInputPassword1" class="form-label">City</label>
-          <input type="text" name="city" value="{{$musician->city}}" class="form-control" id="exampleInputPassword1">
+          <input type="text" name="city" class="form-control" id="exampleInputPassword1">
           @error('city')
             <p class="bg-danger">{{ $message }}</p>
           @enderror
         </div>
         <div class="mb-3 col-6">
           <label for="exampleInputPassword1" class="form-label">Steet</label>
-          <input type="text" name="street" value="{{$musician->street}}" class="form-control" id="exampleInputPassword1">
+          <input type="text" name="street" class="form-control" id="exampleInputPassword1">
           @error('street')
             <p class="bg-danger">{{ $message }}</p>
           @enderror
         </div>
         <div class="mb-3 col-6">
           <label for="exampleInputPassword1" class="form-label">phone</label>
-          <input type="text" name="phone" value="{{$musician->phone}}" class="form-control" id="exampleInputPassword1">
+          <input type="text" name="phone" class="form-control" id="exampleInputPassword1">
           @error('phone')
             <p class="bg-danger">{{ $message }}</p>
           @enderror
         </div>
         <div class="col-3">
             <select class="form-select " name="gender" aria-label="Default select example">
-                <option value="male" @if($musician->gender == 'male') selected @endif>male</option>
-                <option value="female" @if($musician->gender == 'female') selected @endif>female</option>
+                <option value="" selected>none</option>
+                <option value="male">male</option>
+                <option value="female">female</option>
             </select>
             @error('gender')
             <p class="bg-danger">{{ $message }}</p>

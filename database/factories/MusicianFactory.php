@@ -16,8 +16,10 @@ class MusicianFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->userName();
         return [
-            'name' => fake()->userName(),
+            'name' => $name,
+            'slug' => str()->slug($name),
             'city' => fake()->city(),
             'street' => fake()->streetName(),
             'phone' => fake()->phoneNumber() ,

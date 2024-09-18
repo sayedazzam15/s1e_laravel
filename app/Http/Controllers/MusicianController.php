@@ -14,28 +14,29 @@ class MusicianController extends Controller
     function create(){
         return view('musician.create');
     }
+    function show(Musician $musician){
+        return view('musician.show',compact('musician'));
+    }
     function store(){
         request()->validate($this->getMusicianValidationRule());
-        Musician::create(request()->except('_token'));
+        Musician::create([...request()->except('_token'),'slug' => str()->slug(request()->name)]);
         return redirect()->route('musician.index');
     }
-    function show($id){
-        $musician = Musician::find($id);
+    function edit(Musician $musician){
         return view('musician.edit',compact('musician'));
     }
-    function update($id){
+    function update(Musician $musician){
         request()->validate($this->getMusicianValidationRule());
-        Musician::where('id',$id)->update(request()->except('_token','_method'));
+        $musician->update([...request()->except('_token','_method'),'slug' => str()->slug(request()->name)]);
         return redirect()->route('musician.index');
     }
-    function destroy($id){
-        $musician =  Musician::findOrFail($id);
+    function destroy(Musician $musician){
         $musician->delete();
         return redirect()->route('musician.index');
     }
     private function getMusicianValidationRule(){
         return [
-            'name' => 'required|string|min:3|max:10',
+            'name' => 'required|string|min:3|max:20',
             'city' => ['required'],
             'street' => 'required',
             'phone' => 'required',
