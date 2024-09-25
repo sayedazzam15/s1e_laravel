@@ -14,7 +14,6 @@
  
 
     <form action="{{ route('song.store')}}" method="post">
-        @csrf
         <div class="row">
         <div class="mb-3 col-6">
           <label for="exampleInputEmail1" class="form-label">Title</label>

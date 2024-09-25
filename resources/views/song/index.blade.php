@@ -26,13 +26,16 @@
             </tr>
         </thead>
         <tbody>
+            {{-- query return songs --}}
+            {{-- lazy loading --}}
             @foreach($songs as $song)
                 <tr>
                     <td>{{ $song->id }}</td>
                     <td>{{ $song->title }}</td>
                     <td>{{ $song->author }}</td>
-                    <td>{{ $song->album->title }}</td>
+                    <td>{{ $song->album?->title }}</td>
                     <td>
+                        <a href="{{route('song.show',$song)}}">Show</a>
                          <form action="{{ route('song.edit',$song)}}">
                             <button>edit</button>
                         </form>

@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 class MusicianController extends Controller
 {
     function index(){
-        $musicians = Musician::orderBy('id','DESC')->simplePaginate(10);
+        // Builder  whereIn  first   orderBy   orderByDesc
+        // Collection  where   first   sortBy  sortByDesc
+        $musicians = Musician::simplePaginate(10);
         return view('musician.index',compact('musicians'));
     }
     function create(){

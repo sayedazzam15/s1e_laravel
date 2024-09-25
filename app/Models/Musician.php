@@ -13,4 +13,7 @@ class Musician extends Model
     function albums(){
         return $this->hasMany(Album::class);
     }
+    function producedSongs(){
+        return $this->hasManyThrough(Song::class,Album::class);
+    }
 }

@@ -3,7 +3,10 @@
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\MusicianController;
 use App\Http\Controllers\SongController;
+use App\Http\Middleware\IsAdminMiddleware;
 use App\Models\Musician;
+use App\Models\Song;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [MusicianController::class,'index'])->name('musician.index');
@@ -26,10 +29,19 @@ Route::get('/album', [AlbumController::class,'index'])->name('album.index');
 
 // Route::get('/song/edit/{song:id}', [SongController::class,'edit'])->name('song.edit');
 
-// Route::put('/song/edit/{song:id}', [SongController::class,'update'])->name('song.update');
+// Route::put('/song/edit/{song :id}', [SongController::class,'update'])->name('song.update');
 
 // Route::delete('/song/{song:id}', [SongController::class,'destroy'])->name('song.destroy');
 
+Route::get('dashboard',function(){
+    dd('welcome to dashboard');
+});
 
-Route::resource('song',SongController::class);
-Route::resource('musician',MusicianController::class);
+
+Route::middleware(['s1e'])->group(function(){
+    // add login and register (with image) to our application
+    Route::resource('song',SongController::class)->withoutMiddleware([ValidateCsrfToken::class,IsAdminMiddleware::class]);
+    Route::resource('musician',MusicianController::class)->withoutMiddleware(IsAdminMiddleware::class);
+});
+
+

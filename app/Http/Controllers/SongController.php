@@ -14,7 +14,8 @@ class SongController extends Controller
      */
     public function index()
     {
-        $songs = Song::orderByDesc('id')->paginate(10);
+        // song -> album -> musician
+        $songs = Song::with('album')->orderByDesc('id')->paginate(10);
         return view('song.index',compact('songs'));
     }
 
