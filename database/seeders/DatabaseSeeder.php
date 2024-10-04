@@ -13,10 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::factory(10)->create();
         $this->call(MusicianSeeder::class);
         $this->call(AlbumSeeder::class);
         $this->call(SongSeeder::class);
+        $this->call(AdminSeeder::class);
+        $this->call(SupervisorSeeder::class);
 
 
         // User::factory()->create([

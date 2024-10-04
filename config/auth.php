@@ -1,5 +1,6 @@
 <?php
 
+
 return [
 
     /*
@@ -35,10 +36,21 @@ return [
     |
     */
 
+
+    // cookie session based
+    // token based
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+        'supervisor' => [
+            'driver' => 'session',
+            'provider' => 'supervisors',
         ],
     ],
 
@@ -63,6 +75,14 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'supervisors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Supervisor::class,
         ],
 
         // 'users' => [

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Song; 
 use App\Models\Album; 
 use App\Models\Musician; 
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class SongController extends Controller
 {
@@ -14,8 +17,13 @@ class SongController extends Controller
      */
     public function index()
     {
+        // admin   create update delete
+        // supervisor   create
+        // moderator    update
         // song -> album -> musician
+        
         $songs = Song::with('album')->orderByDesc('id')->paginate(10);
+        $users = User::verified()->get();
         return view('song.index',compact('songs'));
     }
 

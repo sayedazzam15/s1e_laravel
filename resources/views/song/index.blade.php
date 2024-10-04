@@ -35,15 +35,21 @@
                     <td>{{ $song->author }}</td>
                     <td>{{ $song->album?->title }}</td>
                     <td>
-                        <a href="{{route('song.show',$song)}}">Show</a>
-                         <form action="{{ route('song.edit',$song)}}">
-                            <button>edit</button>
-                        </form>
-                        <form action="{{ route('song.destroy',$song)}}" method="post">
-                            @method('delete')
-                            @csrf
-                            <button>delete</button>
-                        </form> 
+
+                            <a href="{{route('song.show',$song)}}">Show</a>
+                            @can('song.update')
+                                <form action="{{ route('song.edit',$song)}}">
+                                    <button>edit</button>
+                                </form>
+                            @endcan
+
+                                <form action="{{ route('song.destroy',$song)}}" method="post">
+                                    @method('delete')
+                                    @csrf
+                                    <button>delete</button>
+                                </form> 
+
+
                     </td>
                 </tr>
             @endforeach

@@ -2,12 +2,25 @@
 
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\MusicianController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SongController;
-use App\Http\Middleware\IsAdminMiddleware;
-use App\Models\Musician;
-use App\Models\Song;
-use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth:supervisor,admin', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 
 // Route::get('/', [MusicianController::class,'index'])->name('musician.index');
 // Route::get('/musisican/{musician:slug}', [MusicianController::class,'show'])->name('musician.show');
@@ -33,15 +46,37 @@ Route::get('/album', [AlbumController::class,'index'])->name('album.index');
 
 // Route::delete('/song/{song:id}', [SongController::class,'destroy'])->name('song.destroy');
 
-Route::get('dashboard',function(){
-    dd('welcome to dashboard');
+
+// Route::resource('song',SongController::class)->middleware(['auth:supervisor,admin']);
+
+
+// role           admin   supervisor
+// permission   1,2,3,4    5,6,7
+// admin -> assignPermsission 1,2,3,4
+// supervisor -> assignPermsission  5,6,7
+// $user->assignRole('admin');
+
+Route::get('song',[SongController::class,'index'])->name('song.index');
+
+Route::middleware('auth:supervisor,admin')->group(function(){
+    Route::get('/song/{song}',[SongController::class,'show'])->name('song.show');
+    Route::get('/update/song/{song}',[SongController::class,'edit'])->name('song.edit')->can('song.update');
+
+    Route::post('song',[SongController::class,'store'])->name('song.store');
+    Route::delete('song/{song}',[SongController::class,'destroy'])->name('song.destroy');
+    Route::put('song/{song}',[SongController::class,'update'])->name('song.update');
+    Route::get('/create/song',[SongController::class,'create'])->name('song.create');
 });
 
 
-Route::middleware(['s1e'])->group(function(){
-    // add login and register (with image) to our application
-    Route::resource('song',SongController::class)->withoutMiddleware([ValidateCsrfToken::class,IsAdminMiddleware::class]);
-    Route::resource('musician',MusicianController::class)->withoutMiddleware(IsAdminMiddleware::class);
+
+Route::resource('musician',MusicianController::class);
+
+Route::get('/hash', function () {
 });
 
 
+
+
+
+require __DIR__.'/auth.php';
